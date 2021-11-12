@@ -285,17 +285,9 @@ var devices = {
 
 
 function fnClosest(elem,selector) {
-				
-	/**
-	 * Don't waste time looking for a bad selector
-	 */
 	if (selector==null||selector.length<1){
 		return false;
 	}
-	
-	/**
-	 * If selector is a data attribute attempt to split the attribute from the value; there may not be a value
-	 */
 	function dataAttribute(selector){
 		var firstChar = selector.charAt(0), attribute, value = false, supports = 'classList' in document.documentElement;
 		if (firstChar==="[") {
@@ -310,23 +302,10 @@ function fnClosest(elem,selector) {
 		}
 		return [firstChar,attribute,value,supports];
 	}
-	
-	/**
-	 * Internal function that does the actual finding to save time from re-running the above over and over
-	 */
 	function internalFind(selector,firstChar,attribute,value,supports,elem){
 		while(elem!=null){
-			
-			/**
-			 * Save the previous element or else we wont be able to make the jump to the parent
-			 */
 			var previous = elem;
-			
-			/**
-			 * Only run if this is actually an HTML element
-			 */
 			if(elem.nodeType==1){
-				// If selector is a class
 				if ( firstChar === '.' ) {
 					if ( supports ) {
 						if ( elem.classList.contains( selector.substr(1) ) ) {
@@ -338,15 +317,11 @@ function fnClosest(elem,selector) {
 						}
 					}
 				}
-
-				// If selector is an ID
 				if ( firstChar === '#' ) {
 					if ( elem.id === selector.substr(1) ) {
 						return elem;
 					}
 				}
-
-				// If selector is a data attribute
 				if ( firstChar === '[' ) {
 					if ( elem.hasAttribute( attribute[0] ) ) {
 						if ( value ) {
@@ -358,20 +333,10 @@ function fnClosest(elem,selector) {
 						}
 					}
 				}
-				
-				/**
-				 * If selector is a tag
-				 * We can use tagName now again becuase we check nodeType at the start
-				 * nodeName is better going forward tagName is for IE 5.5
-				 */
 				if ( elem.nodeName.toLowerCase() === selector ) {
 					return elem;
 				}
 			}
-			
-			/**
-			 * Move up to next sibling if there is one or move on to the parent
-			 */
 			elem = elem.previousElementSibling;
 			if(elem===null){ elem = previous.parentNode; }
 		}
