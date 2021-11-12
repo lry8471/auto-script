@@ -100,7 +100,7 @@ var autoScript = function(target) {
             $colorList = $penColor.querySelector('.color-list'),
             $btnColor = $colorList.querySelectorAll('input[type="radio"]');
         $penColor.classList.toggle('open');
-        var sUp = function() {
+        var sDown = function() {
             $colorList.classList.add('active');
             $colorList.style.height = 'auto';
             var height = $colorList.clientHeight + 'px';
@@ -109,7 +109,7 @@ var autoScript = function(target) {
                 $colorList.style.height = height;
             }, 0);
         };
-        var sDown = function() {
+        var sUp = function() {
             $colorList.style.height = '0px';
             $colorList.addEventListener('transitionend', function () {
                 $colorList.classList.remove('active');
@@ -117,7 +117,7 @@ var autoScript = function(target) {
                 once: true
             });
         };
-        (!$colorList.classList.contains('active')) ? sUp() : sDown();
+        (!$colorList.classList.contains('active')) ? sDown() : sUp();
 
         var colorChk = function(e) {
             var $target = e.target;
@@ -125,7 +125,7 @@ var autoScript = function(target) {
             var $section = document.querySelector('.auto-script-section');
             $section.setAttribute('pen-color', color);
             btn.setAttribute('data-color', color);
-            sDown();
+            sUp();
         };
 
         for (i = 0; i < $btnColor.length; i++) {
@@ -133,7 +133,7 @@ var autoScript = function(target) {
         }
 
         document.addEventListener('click', function(e) {
-            if(fnClosest(e.target, '.pen-color') === null) sDown();
+            if(fnClosest(e.target, '.pen-color') === null) sUp();
         }, false);
     }
     
